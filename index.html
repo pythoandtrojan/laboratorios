@@ -3,16 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VulnBank Pro - Laboratório Avançado</title>
+    <title>GlobalBank - Internet Banking</title>
     <style>
-        :root {
-            --primary: #2c3e50;
-            --secondary: #3498db;
-            --danger: #e74c3c;
-            --success: #2ecc71;
-            --warning: #f39c12;
-        }
-
         * {
             margin: 0;
             padding: 0;
@@ -21,734 +13,603 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             padding: 20px;
         }
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
+        .login-container {
             background: white;
-            border-radius: 15px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 400px;
             overflow: hidden;
         }
 
-        header {
-            background: var(--primary);
+        .bank-header {
+            background: #2c3e50;
             color: white;
             padding: 30px;
             text-align: center;
-            position: relative;
         }
 
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
+        .bank-header h1 {
+            font-size: 28px;
+            margin-bottom: 5px;
         }
 
-        h1 {
-            font-size: 2.8em;
-            margin-bottom: 10px;
+        .bank-header p {
+            opacity: 0.8;
+            font-size: 14px;
         }
 
-        .user-info {
-            background: rgba(255,255,255,0.1);
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 15px;
-        }
-
-        .objective {
-            background: var(--danger);
-            color: white;
-            padding: 25px;
-            text-align: center;
-            margin: 25px;
-            border-radius: 12px;
-            animation: glow 2s ease-in-out infinite alternate;
-        }
-
-        @keyframes glow {
-            from { box-shadow: 0 0 20px var(--danger); }
-            to { box-shadow: 0 0 30px var(--warning); }
-        }
-
-        .dashboard {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 25px;
-            padding: 30px;
-        }
-
-        .panel {
-            background: #f8f9fa;
-            padding: 25px;
-            border-radius: 12px;
-            border-left: 5px solid var(--secondary);
-            transition: transform 0.3s ease;
-        }
-
-        .panel:hover {
-            transform: translateY(-5px);
-        }
-
-        .vulnerability-card {
-            background: white;
-            padding: 20px;
-            margin: 15px 0;
-            border-radius: 8px;
-            border: 2px solid #e9ecef;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .vulnerability-card:hover {
-            border-color: var(--secondary);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .vulnerability-card.critical {
-            border-left: 5px solid var(--danger);
-        }
-
-        .vulnerability-card.high {
-            border-left: 5px solid var(--warning);
-        }
-
-        .vulnerability-card.medium {
-            border-left: 5px solid var(--secondary);
-        }
-
-        form {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
+        .login-form {
+            padding: 40px 30px;
         }
 
         .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
+            margin-bottom: 20px;
         }
 
         label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2c3e50;
             font-weight: 600;
-            color: var(--primary);
+            font-size: 14px;
         }
 
-        input, textarea, select {
-            padding: 12px 15px;
-            border: 2px solid #dee2e6;
-            border-radius: 8px;
+        input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e1e8ed;
+            border-radius: 10px;
             font-size: 16px;
             transition: all 0.3s ease;
         }
 
-        input:focus, textarea:focus, select:focus {
+        input:focus {
             outline: none;
-            border-color: var(--secondary);
+            border-color: #3498db;
             box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
         }
 
-        button {
-            padding: 15px 25px;
-            background: var(--success);
+        .btn-login {
+            width: 100%;
+            padding: 15px;
+            background: #27ae60;
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .btn-login:hover {
+            background: #219653;
+        }
+
+        .security-notice {
+            text-align: center;
+            margin-top: 20px;
+            padding: 15px;
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            font-size: 12px;
+            color: #856404;
+        }
+
+        .footer-links {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #e1e8ed;
+        }
+
+        .footer-links a {
+            color: #3498db;
+            text-decoration: none;
+            font-size: 14px;
+            margin: 0 10px;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        /* Dashboard Styles */
+        .dashboard {
+            display: none;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 1200px;
+            min-height: 600px;
+            overflow: hidden;
+        }
+
+        .dashboard-header {
+            background: #2c3e50;
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: between;
+            align-items: center;
+        }
+
+        .user-welcome h2 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .account-info {
+            background: #34495e;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+
+        .dashboard-nav {
+            background: #ecf0f1;
+            padding: 15px 30px;
+            border-bottom: 1px solid #bdc3c7;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: #2c3e50;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            background: #3498db;
+            color: white;
+        }
+
+        .dashboard-content {
+            padding: 30px;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+
+        .card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            border-left: 5px solid #3498db;
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .balance {
+            font-size: 32px;
+            font-weight: bold;
+            color: #27ae60;
+            margin: 10px 0;
+        }
+
+        .account-number {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .action-btn {
+            padding: 12px;
+            background: white;
+            border: 2px solid #e1e8ed;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: center;
             transition: all 0.3s ease;
         }
 
-        button:hover {
-            background: #27ae60;
-            transform: translateY(-2px);
+        .action-btn:hover {
+            border-color: #3498db;
+            background: #f8f9fa;
         }
 
-        button.danger {
-            background: var(--danger);
-        }
-
-        button.danger:hover {
-            background: #c0392b;
-        }
-
-        .result {
-            margin-top: 20px;
-            padding: 20px;
-            background: white;
-            border-radius: 8px;
-            border-left: 5px solid var(--secondary);
-            font-family: 'Courier New', monospace;
-            white-space: pre-wrap;
+        .transaction-list {
             max-height: 300px;
             overflow-y: auto;
         }
 
-        .admin-section {
-            background: var(--primary);
-            color: white;
-            padding: 25px;
-            border-radius: 12px;
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid #e1e8ed;
+        }
+
+        .transaction-date {
+            color: #7f8c8d;
+            font-size: 12px;
+        }
+
+        .transaction-amount {
+            font-weight: 600;
+        }
+
+        .positive {
+            color: #27ae60;
+        }
+
+        .negative {
+            color: #e74c3c;
+        }
+
+        .search-section {
             margin: 20px 0;
         }
 
-        .hint {
-            background: var(--warning);
-            color: white;
-            padding: 12px 15px;
-            border-radius: 6px;
-            margin: 10px 0;
-            font-size: 0.9em;
+        .search-box {
             display: flex;
-            align-items: center;
             gap: 10px;
         }
 
-        .hint::before {
-            content: "💡";
-            font-size: 1.2em;
+        .search-box input {
+            flex: 1;
         }
 
-        .tab-container {
-            margin-top: 20px;
-        }
-
-        .tabs {
-            display: flex;
-            gap: 5px;
-            margin-bottom: 20px;
-        }
-
-        .tab {
-            padding: 12px 25px;
-            background: #e9ecef;
+        .btn-search {
+            padding: 0 20px;
+            background: #3498db;
+            color: white;
             border: none;
-            border-radius: 8px 8px 0 0;
+            border-radius: 8px;
             cursor: pointer;
-            transition: all 0.3s ease;
         }
 
-        .tab.active {
-            background: var(--secondary);
+        .admin-panel {
+            background: #e74c3c;
             color: white;
-        }
-
-        .tab-content {
-            display: none;
             padding: 20px;
-            background: white;
-            border-radius: 0 8px 8px 8px;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        .network-map {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
+            border-radius: 10px;
             margin-top: 20px;
-        }
-
-        .node {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-            border: 2px solid #dee2e6;
-            transition: all 0.3s ease;
-        }
-
-        .node.vulnerable {
-            border-color: var(--danger);
-            background: #ffeaea;
-        }
-
-        .node.secure {
-            border-color: var(--success);
-            background: #eaffea;
-        }
-
-        footer {
-            text-align: center;
-            padding: 25px;
-            background: var(--primary);
-            color: white;
-            margin-top: 30px;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 10px;
-            background: #ecf0f1;
-            border-radius: 5px;
-            margin: 15px 0;
-            overflow: hidden;
-        }
-
-        .progress {
-            height: 100%;
-            background: var(--success);
-            width: 0%;
-            transition: width 0.5s ease;
-        }
-
-        .achievement {
-            background: #fff3cd;
-            border: 1px solid #ffeaa7;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 10px 0;
             display: none;
-        }
-
-        .achievement.unlocked {
-            display: block;
-            animation: bounce 0.6s ease;
-        }
-
-        @keyframes bounce {
-            0%, 20%, 60%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-10px); }
-            80% { transform: translateY(-5px); }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="header-content">
-                <div>
-                    <h1>🏦 VulnBank Pro</h1>
-                    <p class="subtitle">Laboratório Avançado de Segurança Web - Nível 2</p>
-                </div>
-                <div class="user-info" id="userInfo">
-                    Não logado | Progresso: <span id="progressText">0%</span>
-                </div>
-            </div>
-            <div class="progress-bar">
-                <div class="progress" id="globalProgress"></div>
-            </div>
-        </header>
-
-        <div class="objective">
-            <h2>🎯 OBJETIVO FINAL: Comprometer completamente o sistema bancário</h2>
-            <p>1. Roubar R$ 1.000.000 | 2. Acessar dados sensíveis | 3. Comprometer servidor</p>
+    <!-- Tela de Login -->
+    <div class="login-container" id="loginContainer">
+        <div class="bank-header">
+            <h1>GlobalBank</h1>
+            <p>Internet Banking - Acesse sua conta</p>
         </div>
-
-        <div class="dashboard">
-            <!-- Coluna 1: Ataques Clássicos -->
-            <div class="column">
-                <!-- SQL Injection Avançada -->
-                <div class="panel">
-                    <h2>🗃️ SQL Injection Avançada</h2>
-                    <div class="hint">
-                        Tente: ' UNION SELECT username, password, balance FROM users --
-                    </div>
-                    
-                    <div class="tab-container">
-                        <div class="tabs">
-                            <button class="tab active" onclick="openTab('loginTab')">Login</button>
-                            <button class="tab" onclick="openTab('searchTab')">Busca</button>
-                            <button class="tab" onclick="openTab('unionTab')">Union Attack</button>
-                        </div>
-                        
-                        <div id="loginTab" class="tab-content active">
-                            <form id="advancedLoginForm">
-                                <div class="form-group">
-                                    <label>Usuário:</label>
-                                    <input type="text" id="advUsername" placeholder="admin' --">
-                                </div>
-                                <div class="form-group">
-                                    <label>Senha:</label>
-                                    <input type="password" id="advPassword" placeholder="qualquer coisa">
-                                </div>
-                                <button type="submit">Explorar SQLi</button>
-                            </form>
-                        </div>
-                        
-                        <div id="searchTab" class="tab-content">
-                            <form id="userSearchForm">
-                                <div class="form-group">
-                                    <label>Buscar Usuário:</label>
-                                    <input type="text" id="userSearch" placeholder="joao' AND 1=1 --">
-                                </div>
-                                <button type="submit">Buscar Vulnerável</button>
-                            </form>
-                        </div>
-                        
-                        <div id="unionTab" class="tab-content">
-                            <form id="unionForm">
-                                <div class="form-group">
-                                    <label>Union Injection:</label>
-                                    <input type="text" id="unionPayload" placeholder="' UNION SELECT database(), user(), version() --">
-                                </div>
-                                <button type="submit">Executar Union</button>
-                            </form>
-                        </div>
-                    </div>
-                    
-                    <div id="sqlResult" class="result"></div>
-                </div>
-
-                <!-- XSS Avançado -->
-                <div class="panel">
-                    <h2>🎯 XSS Avançado (DOM-Based)</h2>
-                    <div class="hint">
-                        Payload: <img src=x onerror="stealCookies()">
-                    </div>
-                    
-                    <form id="xssForm">
-                        <div class="form-group">
-                            <label>URL com XSS:</label>
-                            <input type="text" id="xssUrl" placeholder="#<script>alert(1)</script>">
-                        </div>
-                        <button type="submit">Testar XSS DOM</button>
-                    </form>
-                    
-                    <div id="xssResult" class="result"></div>
-                    
-                    <div class="hint">
-                        <strong>Cookie atual:</strong> <span id="currentCookie">session=null</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Coluna 2: Ataques Avançados -->
-            <div class="column">
-                <!-- SSRF -->
-                <div class="panel">
-                    <h2>🔗 SSRF (Server-Side Request Forgery)</h2>
-                    <div class="hint">
-                        Tente: file:///etc/passwd ou http://localhost:22
-                    </div>
-                    
-                    <form id="ssrfForm">
-                        <div class="form-group">
-                            <label>URL para Fetch:</label>
-                            <input type="text" id="ssrfUrl" placeholder="http://internal-api/admin">
-                        </div>
-                        <button type="submit">Explorar SSRF</button>
-                    </form>
-                    
-                    <div id="ssrfResult" class="result"></div>
-                </div>
-
-                <!-- XXE -->
-                <div class="panel">
-                    <h2>📄 XXE (XML External Entity)</h2>
-                    <div class="hint">
-                        Injetar ENTITY maliciosa no XML
-                    </div>
-                    
-                    <form id="xxeForm">
-                        <div class="form-group">
-                            <label>XML Malicioso:</label>
-                            <textarea id="xxePayload" rows="4" placeholder='<?xml version="1.0"?><!DOCTYPE foo [<!ENTITY xxe SYSTEM "file:///etc/passwd">]><foo>&xxe;</foo>'></textarea>
-                        </div>
-                        <button type="submit">Explorar XXE</button>
-                    </form>
-                    
-                    <div id="xxeResult" class="result"></div>
-                </div>
-
-                <!-- Deserialização -->
-                <div class="panel">
-                    <h2>⚡ Deserialização Insegura</h2>
-                    <div class="hint">
-                        Exploit de desserialização de objetos
-                    </div>
-                    
-                    <form id="deserializationForm">
-                        <div class="form-group">
-                            <label>Dados Serializados:</label>
-                            <textarea id="serializedData" rows="3" placeholder='O:8:"stdClass":1:{s:4:"code";s:10:"phpinfo();";}'></textarea>
-                        </div>
-                        <button type="submit">Desserializar</button>
-                    </form>
-                    
-                    <div id="deserializationResult" class="result"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Seção de Administração -->
-        <div class="admin-section">
-            <h2>👑 Painel Administrativo Avançado</h2>
-            <div class="hint">
-                Acesso: Cookie admin=true | Token: 7h15-15-4-53cr37-70k3n
+        
+        <form class="login-form" id="loginForm">
+            <div class="form-group">
+                <label for="cpf">CPF</label>
+                <input type="text" id="cpf" placeholder="000.000.000-00" required>
             </div>
             
-            <div class="network-map">
-                <div class="node vulnerable" onclick="exploitNode('web-server')">
-                    🌐 Web Server
+            <div class="form-group">
+                <label for="password">Senha</label>
+                <input type="password" id="password" placeholder="Digite sua senha" required>
+            </div>
+            
+            <button type="submit" class="btn-login">Acessar Conta</button>
+            
+            <div class="security-notice">
+                🔒 Seu acesso está protegido por criptografia SSL de 256 bits
+            </div>
+        </form>
+        
+        <div class="footer-links">
+            <a href="#">Esqueci minha senha</a>
+            <a href="#">Primeiro acesso</a>
+            <a href="#">Ajuda</a>
+        </div>
+    </div>
+
+    <!-- Dashboard Principal -->
+    <div class="dashboard" id="dashboard">
+        <div class="dashboard-header">
+            <div class="user-welcome">
+                <h2>Olá, João Silva!</h2>
+                <div class="account-info">
+                    Agência: 0001 | Conta: 12345-6 | CPF: 123.456.789-00
                 </div>
-                <div class="node vulnerable" onclick="exploitNode('database')">
-                    🗄️ Database
+            </div>
+            <div style="color: #ecf0f1;">
+                Último acesso: Hoje, 14:30
+            </div>
+        </div>
+        
+        <div class="dashboard-nav">
+            <div class="nav-links">
+                <a href="#" class="active" onclick="showSection('overview')">Visão Geral</a>
+                <a href="#" onclick="showSection('transfers')">Transferências</a>
+                <a href="#" onclick="showSection('payments')">Pagamentos</a>
+                <a href="#" onclick="showSection('investments')">Investimentos</a>
+                <a href="#" onclick="showSection('cards')">Cartões</a>
+                <a href="#" style="color: #e74c3c;" onclick="logout()">Sair</a>
+            </div>
+        </div>
+        
+        <div class="dashboard-content">
+            <!-- Coluna Principal -->
+            <div class="main-content">
+                <!-- Visão Geral -->
+                <div id="overview" class="content-section">
+                    <div class="card">
+                        <h3>Saldo da Conta Corrente</h3>
+                        <div class="balance">R$ 45.678,90</div>
+                        <div class="account-number">Conta: 12345-6</div>
+                        
+                        <div class="quick-actions">
+                            <div class="action-btn" onclick="showSection('transfers')">
+                                💰 Transferir
+                            </div>
+                            <div class="action-btn" onclick="showSection('payments')">
+                                📄 Pagar Boleto
+                            </div>
+                            <div class="action-btn" onclick="showSection('investments')">
+                                📈 Investir
+                            </div>
+                            <div class="action-btn">
+                                🏦 Depósito
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>Últimas Transações</h3>
+                        <div class="transaction-list">
+                            <div class="transaction-item">
+                                <div>
+                                    <div>Transferência Recebida - Maria Santos</div>
+                                    <div class="transaction-date">15/12/2024 - 14:20</div>
+                                </div>
+                                <div class="transaction-amount positive">+ R$ 1.500,00</div>
+                            </div>
+                            <div class="transaction-item">
+                                <div>
+                                    <div>Pagamento - Conta de Luz</div>
+                                    <div class="transaction-date">14/12/2024 - 09:15</div>
+                                </div>
+                                <div class="transaction-amount negative">- R$ 287,43</div>
+                            </div>
+                            <div class="transaction-item">
+                                <div>
+                                    <div>Compra Cartão - Supermercado</div>
+                                    <div class="transaction-date">13/12/2024 - 18:30</div>
+                                </div>
+                                <div class="transaction-amount negative">- R$ 456,78</div>
+                            </div>
+                            <div class="transaction-item">
+                                <div>
+                                    <div>Depósito</div>
+                                    <div class="transaction-date">12/12/2024 - 11:05</div>
+                                </div>
+                                <div class="transaction-amount positive">+ R$ 3.000,00</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Área de Busca (XSS Vulnerável) -->
+                    <div class="card">
+                        <h3>Buscar Transações</h3>
+                        <div class="search-section">
+                            <div class="search-box">
+                                <input type="text" id="searchInput" placeholder="Buscar por descrição...">
+                                <button class="btn-search" onclick="searchTransactions()">Buscar</button>
+                            </div>
+                        </div>
+                        <div id="searchResults"></div>
+                    </div>
                 </div>
-                <div class="node" onclick="exploitNode('internal-api')">
-                    🔧 Internal API
+                
+                <!-- Transferências -->
+                <div id="transfers" class="content-section" style="display: none;">
+                    <div class="card">
+                        <h3>Nova Transferência</h3>
+                        <form id="transferForm">
+                            <div class="form-group">
+                                <label>Banco Destino</label>
+                                <select style="padding: 15px; width: 100%; border: 2px solid #e1e8ed; border-radius: 10px;">
+                                    <option>GlobalBank (001)</option>
+                                    <option>Banco do Brasil (001)</option>
+                                    <option>Bradesco (237)</option>
+                                    <option>Itaú (341)</option>
+                                    <option>Santander (033)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Agência</label>
+                                <input type="text" placeholder="0000">
+                            </div>
+                            <div class="form-group">
+                                <label>Conta</label>
+                                <input type="text" placeholder="12345-6">
+                            </div>
+                            <div class="form-group">
+                                <label>Valor (R$)</label>
+                                <input type="text" placeholder="0,00">
+                            </div>
+                            <button type="submit" class="btn-login">Confirmar Transferência</button>
+                        </form>
+                    </div>
                 </div>
-                <div class="node" onclick="exploitNode('admin-panel')">
-                    👑 Admin Panel
+
+                <!-- Painel Admin (Oculto) -->
+                <div class="admin-panel" id="adminPanel">
+                    <h3>🔧 Painel Administrativo</h3>
+                    <p>Bem-vindo ao painel de administração do GlobalBank</p>
+                    <div style="margin-top: 15px;">
+                        <button onclick="showAllUsers()" style="padding: 10px; margin: 5px; background: white; color: #e74c3c; border: none; border-radius: 5px; cursor: pointer;">
+                            👥 Ver Todos os Usuários
+                        </button>
+                        <button onclick="showDatabase()" style="padding: 10px; margin: 5px; background: white; color: #e74c3c; border: none; border-radius: 5px; cursor: pointer;">
+                            🗃️ Acessar Database
+                        </button>
+                    </div>
+                    <div id="adminContent" style="margin-top: 15px; background: rgba(255,255,255,0.2); padding: 15px; border-radius: 5px;"></div>
                 </div>
             </div>
             
-            <div id="adminControls" style="display: none;">
-                <button onclick="dumpDatabase()" class="danger">🗃️ Dump Complete Database</button>
-                <button onclick="executeServerCommand()" class="danger">⚡ Executar Comando no Servidor</button>
-                <button onclick="bypassWAF()" class="danger">🛡️ Bypass WAF</button>
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="card">
+                    <h3>Cartões</h3>
+                    <div style="margin: 15px 0;">
+                        <div style="font-weight: bold;">Visa Platinum **** 1234</div>
+                        <div style="color: #7f8c8d; font-size: 12px;">Limite: R$ 15.000,00</div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3>Investimentos</h3>
+                    <div style="margin: 15px 0;">
+                        <div style="font-weight: bold;">CDB GlobalBank</div>
+                        <div style="color: #27ae60; font-size: 14px;">+ 2,45% este mês</div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3>Contatos Frequentes</h3>
+                    <div style="margin: 10px 0; padding: 8px; background: white; border-radius: 5px; cursor: pointer;">
+                        Maria Santos (Mãe)
+                    </div>
+                    <div style="margin: 10px 0; padding: 8px; background: white; border-radius: 5px; cursor: pointer;">
+                        Carlos Silva (Empresa)
+                    </div>
+                </div>
             </div>
-            
-            <div id="adminResult" class="result"></div>
         </div>
-
-        <!-- Conquistas -->
-        <div class="panel">
-            <h2>🏆 Conquistas</h2>
-            <div id="achievement1" class="achievement">
-                🥇 SQL Master - Explorou todas técnicas SQLi
-            </div>
-            <div id="achievement2" class="achievement">
-                🥈 XSS Wizard - Dominou XSS refletido e armazenado
-            </div>
-            <div id="achievement3" class="achievement">
-                🥉 Server Hunter - Comprometeu servidor interno
-            </div>
-        </div>
-
-        <footer>
-            <p>🔒 Laboratório Educacional Avançado - Nível 2</p>
-            <p>⚠️ Use apenas em ambiente controlado e para fins educacionais</p>
-        </footer>
     </div>
 
     <script>
-        // Sistema avançado
-        let labState = {
-            progress: 0,
-            achievements: [],
-            compromisedNodes: [],
-            currentUser: null,
-            database: {
-                users: [
-                    { id: 1, username: 'admin', password: '7h15-15-4-53cr37-p455w0rd', balance: 1000000, role: 'admin', email: 'admin@vulnbank.com' },
-                    { id: 2, username: 'joao.silva', password: 'Senha123!', balance: 15000, role: 'user', email: 'joao@email.com' },
-                    { id: 3, username: 'maria.santos', password: 'M@ria2024', balance: 25000, role: 'user', email: 'maria@empresa.com' }
-                ],
-                config: {
-                    db_host: 'localhost',
-                    db_user: 'root',
-                    db_pass: 'r00t-p455w0rd!',
-                    api_key: '4p1-k3y-53cr37-2024'
-                },
-                logs: []
-            }
+        // Dados do sistema
+        const users = {
+            '123.456.789-00': { password: 'senha123', name: 'João Silva', balance: 45678.90 },
+            '987.654.321-00': { password: 'admin', name: 'Administrador', balance: 1000000, isAdmin: true }
         };
 
-        // Sistema de abas
-        function openTab(tabName) {
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.classList.remove('active');
+        // Login
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const cpf = document.getElementById('cpf').value;
+            const password = document.getElementById('password').value;
+            
+            // Simulação de autenticação
+            if (users[cpf] && users[cpf].password === password) {
+                showDashboard(users[cpf]);
+            } else {
+                alert('CPF ou senha incorretos');
+            }
+        });
+
+        function showDashboard(user) {
+            document.getElementById('loginContainer').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+            
+            // Atualizar informações do usuário
+            document.querySelector('.user-welcome h2').textContent = `Olá, ${user.name}!`;
+            
+            // Mostrar painel admin se for administrador
+            if (user.isAdmin) {
+                document.getElementById('adminPanel').style.display = 'block';
+            }
+        }
+
+        function showSection(sectionName) {
+            // Esconder todas as seções
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.style.display = 'none';
             });
             
-            document.getElementById(tabName).classList.add('active');
+            // Mostrar seção selecionada
+            document.getElementById(sectionName).style.display = 'block';
+            
+            // Atualizar navegação
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+            });
             event.target.classList.add('active');
         }
 
-        // SQL Injection Avançada
-        document.getElementById('advancedLoginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const username = document.getElementById('advUsername').value;
-            const password = document.getElementById('advPassword').value;
-            
-            // Simulação de banco vulnerável
-            let query = `SELECT * FROM users WHERE username = '${username}' AND password = '${password}'`;
-            document.getElementById('sqlResult').innerHTML = `Query executada: ${query}\n\n`;
-            
-            // Detecção de SQLi
-            if (username.includes("' --") || username.includes("' OR '1'='1")) {
-                document.getElementById('sqlResult').innerHTML += "✅ SQL Injection detectada!\n";
-                document.getElementById('sqlResult').innerHTML += "📊 Todos os usuários vazados:\n";
-                
-                labState.database.users.forEach(user => {
-                    document.getElementById('sqlResult').innerHTML += 
-                        `👤 ${user.username} | 💰 R$ ${user.balance} | 📧 ${user.email}\n`;
-                });
-                
-                updateProgress(20);
-                unlockAchievement('achievement1');
-            }
-        });
-
-        // XSS DOM-Based
-        document.getElementById('xssForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const xssPayload = document.getElementById('xssUrl').value;
-            
-            // Vulnerabilidade DOM XSS
-            const urlParams = new URLSearchParams(window.location.search);
-            const vulnerableParam = urlParams.get('search') || xssPayload;
-            
-            document.getElementById('xssResult').innerHTML = 
-                `🔍 Resultado da busca: ${vulnerableParam}`;
-            
-            // Simulação de roubo de cookie
-            if (xssPayload.includes('<script>') || xssPayload.includes('onerror')) {
-                document.getElementById('currentCookie').textContent = 
-                    'session=stolen_cookie_here; admin=true; token=7h15-15-4-53cr37-70k3n';
-                updateProgress(15);
-            }
-        });
-
-        // SSRF
-        document.getElementById('ssrfForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const ssrfUrl = document.getElementById('ssrfUrl').value;
-            
-            document.getElementById('ssrfResult').innerHTML = 
-                `🌐 Fazendo requisição para: ${ssrfUrl}\n\n`;
-            
-            if (ssrfUrl.includes('file://')) {
-                document.getElementById('ssrfResult').innerHTML += 
-                    "📁 Conteúdo do arquivo local:\n" +
-                    "root:x:0:0:root:/root:/bin/bash\n" +
-                    "daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin\n" +
-                    "bin:x:2:2:bin:/bin:/usr/sbin/nologin";
-                updateProgress(25);
-            } else if (ssrfUrl.includes('localhost')) {
-                document.getElementById('ssrfResult').innerHTML += 
-                    "🔓 Acesso a serviços internos concedido!\n" +
-                    "📧 Internal API Key: " + labState.database.config.api_key;
-            }
-        });
-
-        // XXE
-        document.getElementById('xxeForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const xxePayload = document.getElementById('xxePayload').value;
-            
-            document.getElementById('xxeResult').innerHTML = 
-                "📄 Processando XML...\n\n";
-            
-            if (xxePayload.includes('<!ENTITY')) {
-                document.getElementById('xxeResult').innerHTML += 
-                    "✅ XXE Exploit bem-sucedido!\n" +
-                    "📁 Conteúdo de /etc/passwd:\n" +
-                    "root:x:0:0:root:/root:/bin/bash\n" +
-                    "mysql:x:106:113:MySQL Server:/var/lib/mysql:/bin/false\n" +
-                    "📧 Configurações do sistema vazadas!";
-                updateProgress(20);
-            }
-        });
-
-        // Deserialização
-        document.getElementById('deserializationForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const serializedData = document.getElementById('serializedData').value;
-            
-            document.getElementById('deserializationResult').innerHTML = 
-                "⚡ Desserializando dados...\n\n";
-            
-            try {
-                // Simulação de desserialização vulnerável
-                if (serializedData.includes('phpinfo') || serializedData.includes('system')) {
-                    document.getElementById('deserializationResult').innerHTML += 
-                        "✅ RCE via Desserialização!\n" +
-                        "🚀 Comando executado no servidor\n" +
-                        "📁 Listando diretório:\n" +
-                        "drwxr-xr-x 12 root root   4096 Dec  1 10:30 .\n" +
-                        "-rw-r--r--  1 root root   1234 Dec  1 09:15 config.php\n" +
-                        "-rw-------  1 root root   5678 Dec  1 08:20 database.conf";
-                    updateProgress(20);
-                }
-            } catch (e) {
-                document.getElementById('deserializationResult').innerHTML += 
-                    "❌ Erro na desserialização: " + e.message;
-            }
-        });
-
-        // Sistema de progresso
-        function updateProgress(points) {
-            labState.progress += points;
-            if (labState.progress > 100) labState.progress = 100;
-            
-            document.getElementById('globalProgress').style.width = labState.progress + '%';
-            document.getElementById('progressText').textContent = labState.progress + '%';
-            
-            document.getElementById('userInfo').innerHTML = 
-                `Progresso: ${labState.progress}% | Conquistas: ${labState.achievements.length}`;
+        function logout() {
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('loginContainer').style.display = 'block';
+            document.getElementById('cpf').value = '';
+            document.getElementById('password').value = '';
         }
 
-        function unlockAchievement(achievementId) {
-            const achievement = document.getElementById(achievementId);
-            if (!achievement.classList.contains('unlocked')) {
-                achievement.classList.add('unlocked');
-                labState.achievements.push(achievementId);
-            }
-        }
-
-        // Exploração de nós
-        function exploitNode(node) {
-            if (!labState.compromisedNodes.includes(node)) {
-                labState.compromisedNodes.push(node);
-                updateProgress(5);
-                
-                if (labState.compromisedNodes.length >= 2) {
-                    document.getElementById('adminControls').style.display = 'block';
-                }
-            }
+        // Busca vulnerável a XSS
+        function searchTransactions() {
+            const searchTerm = document.getElementById('searchInput').value;
+            const resultsDiv = document.getElementById('searchResults');
+            
+            // VULNERABILIDADE XSS - renderiza input do usuário sem sanitização
+            resultsDiv.innerHTML = `
+                <div style="margin-top: 15px; padding: 15px; background: white; border-radius: 8px;">
+                    <h4>Resultados para: "${searchTerm}"</h4>
+                    <p>Nenhuma transação encontrada com esses termos.</p>
+                    <p style="color: #7f8c8d; font-size: 12px;">Busca realizada em: ${new Date().toLocaleString()}</p>
+                </div>
+            `;
         }
 
         // Funções administrativas
-        function dumpDatabase() {
-            document.getElementById('adminResult').innerHTML = 
-                "🗃️ DUMP COMPLETO DO DATABASE:\n\n" +
-                "=== USUÁRIOS ===\n" +
-                JSON.stringify(labState.database.users, null, 2) + "\n\n" +
-                "=== CONFIGURAÇÕES ===\n" +
-                JSON.stringify(labState.database.config, null, 2) + "\n\n" +
-                "✅ Database comprometido completamente!";
-            updateProgress(30);
+        function showAllUsers() {
+            document.getElementById('adminContent').innerHTML = `
+                <h4>Todos os Usuários do Sistema:</h4>
+                <pre>${JSON.stringify(users, null, 2)}</pre>
+            `;
         }
 
-        function executeServerCommand() {
-            document.getElementById('adminResult').innerHTML = 
-                "⚡ EXECUTANDO COMANDOS NO SERVIDOR:\n\n" +
-                "$ whoami\nroot\n\n" +
-                "$ ls -la /root\n" +
-                "-rw-------  1 root root 1234 Dec  1 config.php\n" +
-                "-rw-------  1 root root 5678 Dec  1 secrets.txt\n\n" +
-                "🚀 Servidor completamente comprometido!";
-            updateProgress(25);
+        function showDatabase() {
+            document.getElementById('adminContent').innerHTML = `
+                <h4>Acesso ao Database:</h4>
+                <div style="background: #2c3e50; color: white; padding: 15px; border-radius: 5px; font-family: monospace;">
+                    <div>DB Host: mysql.internal.globalbank.com</div>
+                    <div>DB User: root</div>
+                    <div>DB Pass: G10b4lB4nk2024!</div>
+                    <div>API Key: gb_api_7h15-15-4-53cr37-k3y</div>
+                </div>
+            `;
         }
 
-        function bypassWAF() {
-            document.getElementById('adminResult').innerHTML = 
-                "🛡️ BYPASSING WAF...\n\n" +
-                "✅ WAF contornado com sucesso!\n" +
-                "📊 Técnicas utilizadas:\n" +
-                "• Unicode encoding\n" +
-                "• HTTP parameter pollution\n" +
-                "• Case variation\n" +
-                "• SQL comments injection";
-            updateProgress(15);
-        }
-
-        // Inicialização
-        document.getElementById('userInfo').innerHTML = 
-            `Progresso: 0% | Conquistas: 0`;
+        // Formatação de CPF
+        document.getElementById('cpf').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length <= 11) {
+                value = value.replace(/(\d{3})(\d)/, '$1.$2')
+                           .replace(/(\d{3})(\d)/, '$1.$2')
+                           .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+                e.target.value = value;
+            }
+        });
     </script>
 </body>
 </html>

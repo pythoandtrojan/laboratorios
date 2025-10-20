@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VulnBank - Laboratório de Segurança</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        header {
+            background: #2c3e50;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #ecf0f1;
+            font-size: 1.2em;
+        }
+
+        .objective {
+            background: #e74c3c;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            margin: 20px;
+            border-radius: 10px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            padding: 30px;
+        }
+
+        .section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 5px solid #3498db;
+        }
+
+        .vulnerability-list {
+            list-style: none;
+            margin: 15px 0;
+        }
+
+        .vulnerability-list li {
+            padding: 10px;
+            margin: 5px 0;
+            background: white;
+            border-radius: 5px;
+            border-left: 3px solid #e74c3c;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        input, textarea, select {
+            padding: 12px;
+            border: 2px solid #bdc3c7;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        button {
+            padding: 15px;
+            background: #2ecc71;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #27ae60;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #ecf0f1;
+            border-radius: 8px;
+            border-left: 5px solid #3498db;
+        }
+
+        .admin-panel {
+            background: #34495e;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .hint {
+            background: #f39c12;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-size: 0.9em;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #2c3e50;
+            color: white;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏦 VulnBank</h1>
+            <p class="subtitle">Laboratório Interativo de Segurança Web</p>
+        </header>
+
+        <div class="objective">
+            <h2>🎯 OBJETIVO FINAL: Roubar R$ 1.000.000 da conta do administrador</h2>
+            <p>Explore as vulnerabilidades para alcançar este objetivo!</p>
+        </div>
+
+        <div class="content">
+            <!-- Seção de Login Vulnerável -->
+            <div class="section">
+                <h2>🔐 Login (SQL Injection)</h2>
+                <div class="hint">
+                    💡 Dica: Tente ' OR '1'='1' -- como usuário e senha vazia
+                </div>
+                <form id="loginForm">
+                    <input type="text" id="username" placeholder="Usuário" required>
+                    <input type="password" id="password" placeholder="Senha" required>
+                    <button type="submit">Entrar</button>
+                </form>
+                <div id="loginResult" class="result"></div>
+            </div>
+
+            <!-- Seção de Busca (XSS) -->
+            <div class="section">
+                <h2>🔍 Busca de Usuários (XSS Refletido)</h2>
+                <div class="hint">
+                    💡 Dica: Tente <script>alert('XSS')</script> na busca
+                </div>
+                <form id="searchForm">
+                    <input type="text" id="searchQuery" placeholder="Buscar usuário..." required>
+                    <button type="submit">Buscar</button>
+                </form>
+                <div id="searchResult" class="result"></div>
+            </div>
+
+            <!-- Seção de Comentários (XSS Armazenado) -->
+            <div class="section">
+                <h2>💬 Comentários (XSS Armazenado)</h2>
+                <div class="hint">
+                    💡 Dica: Comentários persistem e afetam outros usuários
+                </div>
+                <form id="commentForm">
+                    <input type="text" id="commentName" placeholder="Seu nome" required>
+                    <textarea id="commentText" placeholder="Seu comentário..." required></textarea>
+                    <button type="submit">Postar Comentário</button>
+                </form>
+                <div id="commentsSection" class="result"></div>
+            </div>
+
+            <!-- Seção de Transferência (CSRF) -->
+            <div class="section">
+                <h2>💰 Transferência Bancária (CSRF)</h2>
+                <div class="hint">
+                    💡 Dica: Crie uma página que faça transferência automática
+                </div>
+                <form id="transferForm">
+                    <input type="text" id="transferTo" placeholder="Conta Destino" required>
+                    <input type="number" id="transferAmount" placeholder="Valor" required>
+                    <button type="submit">Transferir</button>
+                </form>
+                <div id="transferResult" class="result"></div>
+            </div>
+
+            <!-- Painel Administrativo (Acesso Inseguro) -->
+            <div class="admin-panel">
+                <h2>👑 Painel Administrativo</h2>
+                <div class="hint">
+                    💡 Dica: URL direta: /admin.php ou cookie: admin=true
+                </div>
+                <div id="adminContent">
+                    <p>Saldo Administrador: R$ 1.000.000</p>
+                    <button onclick="showAdminFunctions()">Funções Admin</button>
+                    <div id="adminFunctions" style="display:none; margin-top:15px;">
+                        <button onclick="resetDatabase()">Resetar Banco de Dados</button>
+                        <button onclick="viewAllUsers()">Ver Todos Usuários</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seção de Upload (Arquivos Maliciosos) -->
+            <div class="section">
+                <h2>📁 Upload de Arquivos</h2>
+                <div class="hint">
+                    💡 Dica: Tente fazer upload de arquivos .php ou .html
+                </div>
+                <form id="uploadForm">
+                    <input type="file" id="fileUpload" required>
+                    <button type="submit">Upload</button>
+                </form>
+                <div id="uploadResult" class="result"></div>
+            </div>
+        </div>
+
+        <footer>
+            <p>🔒 Laboratório Educacional - Use apenas em ambiente controlado</p>
+            <p>Desenvolvido para estudos de segurança da informação</p>
+        </footer>
+    </div>
+
+    <script>
+        // Simulação de banco de dados
+        let database = {
+            users: [
+                { id: 1, username: 'admin', password: 'admin123', balance: 1000000, role: 'admin' },
+                { id: 2, username: 'joao', password: 'senha123', balance: 5000, role: 'user' },
+                { id: 3, username: 'maria', password: '123456', balance: 3000, role: 'user' }
+            ],
+            comments: [],
+            sessions: {}
+        };
+
+        // 1. SQL Injection no Login
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            // Vulnerabilidade SQL Injection
+            const user = database.users.find(u => 
+                u.username === username && u.password === password
+            ) || database.users.find(u => 
+                `' OR '1'='1' --` === username && password === ''
+            );
+
+            if (user) {
+                document.getElementById('loginResult').innerHTML = 
+                    `<p style="color: green;">✅ Login bem-sucedido! Bem-vindo, ${user.username}</p>
+                     <p>Saldo: R$ ${user.balance}</p>
+                     <p>Role: ${user.role}</p>`;
+                database.sessions.currentUser = user;
+            } else {
+                document.getElementById('loginResult').innerHTML = 
+                    '<p style="color: red;">❌ Login falhou</p>';
+            }
+        });
+
+        // 2. XSS Refletido na Busca
+        document.getElementById('searchForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const query = document.getElementById('searchQuery').value;
+            
+            // Vulnerabilidade XSS Refletido
+            document.getElementById('searchResult').innerHTML = 
+                `<p>Resultados para: ${query}</p>
+                 <p>Usuários encontrados: João Silva, Maria Santos</p>`;
+        });
+
+        // 3. XSS Armazenado nos Comentários
+        document.getElementById('commentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('commentName').value;
+            const text = document.getElementById('commentText').value;
+            
+            // Vulnerabilidade XSS Armazenado
+            database.comments.push({ name, text, date: new Date() });
+            displayComments();
+            
+            document.getElementById('commentName').value = '';
+            document.getElementById('commentText').value = '';
+        });
+
+        function displayComments() {
+            const commentsHTML = database.comments.map(comment => 
+                `<div style="border-bottom: 1px solid #ccc; padding: 10px 0;">
+                    <strong>${comment.name}</strong>: ${comment.text}
+                    <br><small>${comment.date.toLocaleString()}</small>
+                </div>`
+            ).join('');
+            
+            document.getElementById('commentsSection').innerHTML = commentsHTML;
+        }
+
+        // 4. CSRF na Transferência
+        document.getElementById('transferForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const to = document.getElementById('transferTo').value;
+            const amount = parseInt(document.getElementById('transferAmount').value);
+            
+            if (database.sessions.currentUser) {
+                if (database.sessions.currentUser.balance >= amount) {
+                    database.sessions.currentUser.balance -= amount;
+                    document.getElementById('transferResult').innerHTML = 
+                        `<p style="color: green;">✅ Transferência de R$ ${amount} para ${to} realizada!</p>
+                         <p>Novo saldo: R$ ${database.sessions.currentUser.balance}</p>`;
+                } else {
+                    document.getElementById('transferResult').innerHTML = 
+                        '<p style="color: red;">❌ Saldo insuficiente</p>';
+                }
+            } else {
+                document.getElementById('transferResult').innerHTML = 
+                    '<p style="color: red;">❌ Faça login primeiro</p>';
+            }
+        });
+
+        // 5. Upload de Arquivos Inseguro
+        document.getElementById('uploadForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const fileInput = document.getElementById('fileUpload');
+            const fileName = fileInput.files[0].name;
+            const fileExtension = fileName.split('.').pop().toLowerCase();
+            
+            // Vulnerabilidade: Validação insuficiente
+            if (['php', 'html', 'js', 'exe'].includes(fileExtension)) {
+                document.getElementById('uploadResult').innerHTML = 
+                    `<p style="color: red;">⚠️ Arquivo potencialmente perigoso upload: ${fileName}</p>
+                     <p>Conteúdo executável detectado!</p>`;
+            } else {
+                document.getElementById('uploadResult').innerHTML = 
+                    `<p style="color: green;">✅ Arquivo ${fileName} upload com sucesso</p>`;
+            }
+        });
+
+        // Funções administrativas
+        function showAdminFunctions() {
+            document.getElementById('adminFunctions').style.display = 'block';
+        }
+
+        function resetDatabase() {
+            database.users = [
+                { id: 1, username: 'admin', password: 'admin123', balance: 1000000, role: 'admin' },
+                { id: 2, username: 'joao', password: 'senha123', balance: 5000, role: 'user' },
+                { id: 3, username: 'maria', password: '123456', balance: 3000, role: 'user' }
+            ];
+            database.comments = [];
+            alert('✅ Banco de dados resetado!');
+        }
+
+        function viewAllUsers() {
+            const usersList = database.users.map(user => 
+                `${user.username} - R$ ${user.balance} - ${user.role}`
+            ).join('<br>');
+            
+            document.getElementById('adminFunctions').innerHTML += 
+                `<div style="background: #2c3e50; padding: 10px; margin-top: 10px;">
+                    <h3>Todos os Usuários:</h3>
+                    <p>${usersList}</p>
+                </div>`;
+        }
+
+        // Inicializar comentários
+        displayComments();
+    </script>
+</body>
+</html>

@@ -3,8 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VulnBank - Laboratório de Segurança</title>
+    <title>VulnBank Pro - Laboratório Avançado</title>
     <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --danger: #e74c3c;
+            --success: #2ecc71;
+            --warning: #f39c12;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -19,72 +27,100 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             background: white;
             border-radius: 15px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
             overflow: hidden;
         }
 
         header {
-            background: #2c3e50;
+            background: var(--primary);
             color: white;
             padding: 30px;
             text-align: center;
+            position: relative;
         }
 
-        header h1 {
-            font-size: 2.5em;
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        h1 {
+            font-size: 2.8em;
             margin-bottom: 10px;
         }
 
-        .subtitle {
-            color: #ecf0f1;
-            font-size: 1.2em;
+        .user-info {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
         }
 
         .objective {
-            background: #e74c3c;
+            background: var(--danger);
             color: white;
-            padding: 20px;
+            padding: 25px;
             text-align: center;
-            margin: 20px;
-            border-radius: 10px;
-            animation: pulse 2s infinite;
+            margin: 25px;
+            border-radius: 12px;
+            animation: glow 2s ease-in-out infinite alternate;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-            100% { transform: scale(1); }
+        @keyframes glow {
+            from { box-shadow: 0 0 20px var(--danger); }
+            to { box-shadow: 0 0 30px var(--warning); }
         }
 
-        .content {
+        .dashboard {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            gap: 25px;
             padding: 30px;
         }
 
-        .section {
+        .panel {
             background: #f8f9fa;
             padding: 25px;
-            border-radius: 10px;
-            border-left: 5px solid #3498db;
+            border-radius: 12px;
+            border-left: 5px solid var(--secondary);
+            transition: transform 0.3s ease;
         }
 
-        .vulnerability-list {
-            list-style: none;
-            margin: 15px 0;
+        .panel:hover {
+            transform: translateY(-5px);
         }
 
-        .vulnerability-list li {
-            padding: 10px;
-            margin: 5px 0;
+        .vulnerability-card {
             background: white;
-            border-radius: 5px;
-            border-left: 3px solid #e74c3c;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            border: 2px solid #e9ecef;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .vulnerability-card:hover {
+            border-color: var(--secondary);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .vulnerability-card.critical {
+            border-left: 5px solid var(--danger);
+        }
+
+        .vulnerability-card.high {
+            border-left: 5px solid var(--warning);
+        }
+
+        .vulnerability-card.medium {
+            border-left: 5px solid var(--secondary);
         }
 
         form {
@@ -93,314 +129,626 @@
             gap: 15px;
         }
 
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        label {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
         input, textarea, select {
-            padding: 12px;
-            border: 2px solid #bdc3c7;
+            padding: 12px 15px;
+            border: 2px solid #dee2e6;
             border-radius: 8px;
             font-size: 16px;
-            transition: border-color 0.3s;
+            transition: all 0.3s ease;
         }
 
         input:focus, textarea:focus, select:focus {
             outline: none;
-            border-color: #3498db;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
         }
 
         button {
-            padding: 15px;
-            background: #2ecc71;
+            padding: 15px 25px;
+            background: var(--success);
             color: white;
             border: none;
             border-radius: 8px;
             font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: all 0.3s ease;
         }
 
         button:hover {
             background: #27ae60;
+            transform: translateY(-2px);
+        }
+
+        button.danger {
+            background: var(--danger);
+        }
+
+        button.danger:hover {
+            background: #c0392b;
         }
 
         .result {
             margin-top: 20px;
-            padding: 15px;
-            background: #ecf0f1;
+            padding: 20px;
+            background: white;
             border-radius: 8px;
-            border-left: 5px solid #3498db;
+            border-left: 5px solid var(--secondary);
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
         }
 
-        .admin-panel {
-            background: #34495e;
+        .admin-section {
+            background: var(--primary);
             color: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 20px;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 20px 0;
         }
 
         .hint {
-            background: #f39c12;
+            background: var(--warning);
             color: white;
-            padding: 10px;
-            border-radius: 5px;
+            padding: 12px 15px;
+            border-radius: 6px;
             margin: 10px 0;
             font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .hint::before {
+            content: "💡";
+            font-size: 1.2em;
+        }
+
+        .tab-container {
+            margin-top: 20px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 12px 25px;
+            background: #e9ecef;
+            border: none;
+            border-radius: 8px 8px 0 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab.active {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 20px;
+            background: white;
+            border-radius: 0 8px 8px 8px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .network-map {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .node {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid #dee2e6;
+            transition: all 0.3s ease;
+        }
+
+        .node.vulnerable {
+            border-color: var(--danger);
+            background: #ffeaea;
+        }
+
+        .node.secure {
+            border-color: var(--success);
+            background: #eaffea;
         }
 
         footer {
             text-align: center;
-            padding: 20px;
-            background: #2c3e50;
+            padding: 25px;
+            background: var(--primary);
             color: white;
             margin-top: 30px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #ecf0f1;
+            border-radius: 5px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: var(--success);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .achievement {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            display: none;
+        }
+
+        .achievement.unlocked {
+            display: block;
+            animation: bounce 0.6s ease;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 60%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            80% { transform: translateY(-5px); }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>🏦 VulnBank</h1>
-            <p class="subtitle">Laboratório Interativo de Segurança Web</p>
+            <div class="header-content">
+                <div>
+                    <h1>🏦 VulnBank Pro</h1>
+                    <p class="subtitle">Laboratório Avançado de Segurança Web - Nível 2</p>
+                </div>
+                <div class="user-info" id="userInfo">
+                    Não logado | Progresso: <span id="progressText">0%</span>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress" id="globalProgress"></div>
+            </div>
         </header>
 
         <div class="objective">
-            <h2>🎯 OBJETIVO FINAL: Roubar R$ 1.000.000 da conta do administrador</h2>
-            <p>Explore as vulnerabilidades para alcançar este objetivo!</p>
+            <h2>🎯 OBJETIVO FINAL: Comprometer completamente o sistema bancário</h2>
+            <p>1. Roubar R$ 1.000.000 | 2. Acessar dados sensíveis | 3. Comprometer servidor</p>
         </div>
 
-        <div class="content">
-            <!-- Seção de Login Vulnerável -->
-            <div class="section">
-                <h2>🔐 Login (SQL Injection)</h2>
-                <div class="hint">
-                    💡 Dica: Tente ' OR '1'='1' -- como usuário e senha vazia
+        <div class="dashboard">
+            <!-- Coluna 1: Ataques Clássicos -->
+            <div class="column">
+                <!-- SQL Injection Avançada -->
+                <div class="panel">
+                    <h2>🗃️ SQL Injection Avançada</h2>
+                    <div class="hint">
+                        Tente: ' UNION SELECT username, password, balance FROM users --
+                    </div>
+                    
+                    <div class="tab-container">
+                        <div class="tabs">
+                            <button class="tab active" onclick="openTab('loginTab')">Login</button>
+                            <button class="tab" onclick="openTab('searchTab')">Busca</button>
+                            <button class="tab" onclick="openTab('unionTab')">Union Attack</button>
+                        </div>
+                        
+                        <div id="loginTab" class="tab-content active">
+                            <form id="advancedLoginForm">
+                                <div class="form-group">
+                                    <label>Usuário:</label>
+                                    <input type="text" id="advUsername" placeholder="admin' --">
+                                </div>
+                                <div class="form-group">
+                                    <label>Senha:</label>
+                                    <input type="password" id="advPassword" placeholder="qualquer coisa">
+                                </div>
+                                <button type="submit">Explorar SQLi</button>
+                            </form>
+                        </div>
+                        
+                        <div id="searchTab" class="tab-content">
+                            <form id="userSearchForm">
+                                <div class="form-group">
+                                    <label>Buscar Usuário:</label>
+                                    <input type="text" id="userSearch" placeholder="joao' AND 1=1 --">
+                                </div>
+                                <button type="submit">Buscar Vulnerável</button>
+                            </form>
+                        </div>
+                        
+                        <div id="unionTab" class="tab-content">
+                            <form id="unionForm">
+                                <div class="form-group">
+                                    <label>Union Injection:</label>
+                                    <input type="text" id="unionPayload" placeholder="' UNION SELECT database(), user(), version() --">
+                                </div>
+                                <button type="submit">Executar Union</button>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <div id="sqlResult" class="result"></div>
                 </div>
-                <form id="loginForm">
-                    <input type="text" id="username" placeholder="Usuário" required>
-                    <input type="password" id="password" placeholder="Senha" required>
-                    <button type="submit">Entrar</button>
-                </form>
-                <div id="loginResult" class="result"></div>
-            </div>
 
-            <!-- Seção de Busca (XSS) -->
-            <div class="section">
-                <h2>🔍 Busca de Usuários (XSS Refletido)</h2>
-                <div class="hint">
-                    💡 Dica: Tente <script>alert('XSS')</script> na busca
-                </div>
-                <form id="searchForm">
-                    <input type="text" id="searchQuery" placeholder="Buscar usuário..." required>
-                    <button type="submit">Buscar</button>
-                </form>
-                <div id="searchResult" class="result"></div>
-            </div>
-
-            <!-- Seção de Comentários (XSS Armazenado) -->
-            <div class="section">
-                <h2>💬 Comentários (XSS Armazenado)</h2>
-                <div class="hint">
-                    💡 Dica: Comentários persistem e afetam outros usuários
-                </div>
-                <form id="commentForm">
-                    <input type="text" id="commentName" placeholder="Seu nome" required>
-                    <textarea id="commentText" placeholder="Seu comentário..." required></textarea>
-                    <button type="submit">Postar Comentário</button>
-                </form>
-                <div id="commentsSection" class="result"></div>
-            </div>
-
-            <!-- Seção de Transferência (CSRF) -->
-            <div class="section">
-                <h2>💰 Transferência Bancária (CSRF)</h2>
-                <div class="hint">
-                    💡 Dica: Crie uma página que faça transferência automática
-                </div>
-                <form id="transferForm">
-                    <input type="text" id="transferTo" placeholder="Conta Destino" required>
-                    <input type="number" id="transferAmount" placeholder="Valor" required>
-                    <button type="submit">Transferir</button>
-                </form>
-                <div id="transferResult" class="result"></div>
-            </div>
-
-            <!-- Painel Administrativo (Acesso Inseguro) -->
-            <div class="admin-panel">
-                <h2>👑 Painel Administrativo</h2>
-                <div class="hint">
-                    💡 Dica: URL direta: /admin.php ou cookie: admin=true
-                </div>
-                <div id="adminContent">
-                    <p>Saldo Administrador: R$ 1.000.000</p>
-                    <button onclick="showAdminFunctions()">Funções Admin</button>
-                    <div id="adminFunctions" style="display:none; margin-top:15px;">
-                        <button onclick="resetDatabase()">Resetar Banco de Dados</button>
-                        <button onclick="viewAllUsers()">Ver Todos Usuários</button>
+                <!-- XSS Avançado -->
+                <div class="panel">
+                    <h2>🎯 XSS Avançado (DOM-Based)</h2>
+                    <div class="hint">
+                        Payload: <img src=x onerror="stealCookies()">
+                    </div>
+                    
+                    <form id="xssForm">
+                        <div class="form-group">
+                            <label>URL com XSS:</label>
+                            <input type="text" id="xssUrl" placeholder="#<script>alert(1)</script>">
+                        </div>
+                        <button type="submit">Testar XSS DOM</button>
+                    </form>
+                    
+                    <div id="xssResult" class="result"></div>
+                    
+                    <div class="hint">
+                        <strong>Cookie atual:</strong> <span id="currentCookie">session=null</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Seção de Upload (Arquivos Maliciosos) -->
-            <div class="section">
-                <h2>📁 Upload de Arquivos</h2>
-                <div class="hint">
-                    💡 Dica: Tente fazer upload de arquivos .php ou .html
+            <!-- Coluna 2: Ataques Avançados -->
+            <div class="column">
+                <!-- SSRF -->
+                <div class="panel">
+                    <h2>🔗 SSRF (Server-Side Request Forgery)</h2>
+                    <div class="hint">
+                        Tente: file:///etc/passwd ou http://localhost:22
+                    </div>
+                    
+                    <form id="ssrfForm">
+                        <div class="form-group">
+                            <label>URL para Fetch:</label>
+                            <input type="text" id="ssrfUrl" placeholder="http://internal-api/admin">
+                        </div>
+                        <button type="submit">Explorar SSRF</button>
+                    </form>
+                    
+                    <div id="ssrfResult" class="result"></div>
                 </div>
-                <form id="uploadForm">
-                    <input type="file" id="fileUpload" required>
-                    <button type="submit">Upload</button>
-                </form>
-                <div id="uploadResult" class="result"></div>
+
+                <!-- XXE -->
+                <div class="panel">
+                    <h2>📄 XXE (XML External Entity)</h2>
+                    <div class="hint">
+                        Injetar ENTITY maliciosa no XML
+                    </div>
+                    
+                    <form id="xxeForm">
+                        <div class="form-group">
+                            <label>XML Malicioso:</label>
+                            <textarea id="xxePayload" rows="4" placeholder='<?xml version="1.0"?><!DOCTYPE foo [<!ENTITY xxe SYSTEM "file:///etc/passwd">]><foo>&xxe;</foo>'></textarea>
+                        </div>
+                        <button type="submit">Explorar XXE</button>
+                    </form>
+                    
+                    <div id="xxeResult" class="result"></div>
+                </div>
+
+                <!-- Deserialização -->
+                <div class="panel">
+                    <h2>⚡ Deserialização Insegura</h2>
+                    <div class="hint">
+                        Exploit de desserialização de objetos
+                    </div>
+                    
+                    <form id="deserializationForm">
+                        <div class="form-group">
+                            <label>Dados Serializados:</label>
+                            <textarea id="serializedData" rows="3" placeholder='O:8:"stdClass":1:{s:4:"code";s:10:"phpinfo();";}'></textarea>
+                        </div>
+                        <button type="submit">Desserializar</button>
+                    </form>
+                    
+                    <div id="deserializationResult" class="result"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção de Administração -->
+        <div class="admin-section">
+            <h2>👑 Painel Administrativo Avançado</h2>
+            <div class="hint">
+                Acesso: Cookie admin=true | Token: 7h15-15-4-53cr37-70k3n
+            </div>
+            
+            <div class="network-map">
+                <div class="node vulnerable" onclick="exploitNode('web-server')">
+                    🌐 Web Server
+                </div>
+                <div class="node vulnerable" onclick="exploitNode('database')">
+                    🗄️ Database
+                </div>
+                <div class="node" onclick="exploitNode('internal-api')">
+                    🔧 Internal API
+                </div>
+                <div class="node" onclick="exploitNode('admin-panel')">
+                    👑 Admin Panel
+                </div>
+            </div>
+            
+            <div id="adminControls" style="display: none;">
+                <button onclick="dumpDatabase()" class="danger">🗃️ Dump Complete Database</button>
+                <button onclick="executeServerCommand()" class="danger">⚡ Executar Comando no Servidor</button>
+                <button onclick="bypassWAF()" class="danger">🛡️ Bypass WAF</button>
+            </div>
+            
+            <div id="adminResult" class="result"></div>
+        </div>
+
+        <!-- Conquistas -->
+        <div class="panel">
+            <h2>🏆 Conquistas</h2>
+            <div id="achievement1" class="achievement">
+                🥇 SQL Master - Explorou todas técnicas SQLi
+            </div>
+            <div id="achievement2" class="achievement">
+                🥈 XSS Wizard - Dominou XSS refletido e armazenado
+            </div>
+            <div id="achievement3" class="achievement">
+                🥉 Server Hunter - Comprometeu servidor interno
             </div>
         </div>
 
         <footer>
-            <p>🔒 Laboratório Educacional - Use apenas em ambiente controlado</p>
-            <p>Desenvolvido para estudos de segurança da informação</p>
+            <p>🔒 Laboratório Educacional Avançado - Nível 2</p>
+            <p>⚠️ Use apenas em ambiente controlado e para fins educacionais</p>
         </footer>
     </div>
 
     <script>
-        // Simulação de banco de dados
-        let database = {
-            users: [
-                { id: 1, username: 'admin', password: 'admin123', balance: 1000000, role: 'admin' },
-                { id: 2, username: 'joao', password: 'senha123', balance: 5000, role: 'user' },
-                { id: 3, username: 'maria', password: '123456', balance: 3000, role: 'user' }
-            ],
-            comments: [],
-            sessions: {}
+        // Sistema avançado
+        let labState = {
+            progress: 0,
+            achievements: [],
+            compromisedNodes: [],
+            currentUser: null,
+            database: {
+                users: [
+                    { id: 1, username: 'admin', password: '7h15-15-4-53cr37-p455w0rd', balance: 1000000, role: 'admin', email: 'admin@vulnbank.com' },
+                    { id: 2, username: 'joao.silva', password: 'Senha123!', balance: 15000, role: 'user', email: 'joao@email.com' },
+                    { id: 3, username: 'maria.santos', password: 'M@ria2024', balance: 25000, role: 'user', email: 'maria@empresa.com' }
+                ],
+                config: {
+                    db_host: 'localhost',
+                    db_user: 'root',
+                    db_pass: 'r00t-p455w0rd!',
+                    api_key: '4p1-k3y-53cr37-2024'
+                },
+                logs: []
+            }
         };
 
-        // 1. SQL Injection no Login
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
+        // Sistema de abas
+        function openTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
             
-            // Vulnerabilidade SQL Injection
-            const user = database.users.find(u => 
-                u.username === username && u.password === password
-            ) || database.users.find(u => 
-                `' OR '1'='1' --` === username && password === ''
-            );
-
-            if (user) {
-                document.getElementById('loginResult').innerHTML = 
-                    `<p style="color: green;">✅ Login bem-sucedido! Bem-vindo, ${user.username}</p>
-                     <p>Saldo: R$ ${user.balance}</p>
-                     <p>Role: ${user.role}</p>`;
-                database.sessions.currentUser = user;
-            } else {
-                document.getElementById('loginResult').innerHTML = 
-                    '<p style="color: red;">❌ Login falhou</p>';
-            }
-        });
-
-        // 2. XSS Refletido na Busca
-        document.getElementById('searchForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const query = document.getElementById('searchQuery').value;
-            
-            // Vulnerabilidade XSS Refletido
-            document.getElementById('searchResult').innerHTML = 
-                `<p>Resultados para: ${query}</p>
-                 <p>Usuários encontrados: João Silva, Maria Santos</p>`;
-        });
-
-        // 3. XSS Armazenado nos Comentários
-        document.getElementById('commentForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const name = document.getElementById('commentName').value;
-            const text = document.getElementById('commentText').value;
-            
-            // Vulnerabilidade XSS Armazenado
-            database.comments.push({ name, text, date: new Date() });
-            displayComments();
-            
-            document.getElementById('commentName').value = '';
-            document.getElementById('commentText').value = '';
-        });
-
-        function displayComments() {
-            const commentsHTML = database.comments.map(comment => 
-                `<div style="border-bottom: 1px solid #ccc; padding: 10px 0;">
-                    <strong>${comment.name}</strong>: ${comment.text}
-                    <br><small>${comment.date.toLocaleString()}</small>
-                </div>`
-            ).join('');
-            
-            document.getElementById('commentsSection').innerHTML = commentsHTML;
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
         }
 
-        // 4. CSRF na Transferência
-        document.getElementById('transferForm').addEventListener('submit', function(e) {
+        // SQL Injection Avançada
+        document.getElementById('advancedLoginForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const to = document.getElementById('transferTo').value;
-            const amount = parseInt(document.getElementById('transferAmount').value);
+            const username = document.getElementById('advUsername').value;
+            const password = document.getElementById('advPassword').value;
             
-            if (database.sessions.currentUser) {
-                if (database.sessions.currentUser.balance >= amount) {
-                    database.sessions.currentUser.balance -= amount;
-                    document.getElementById('transferResult').innerHTML = 
-                        `<p style="color: green;">✅ Transferência de R$ ${amount} para ${to} realizada!</p>
-                         <p>Novo saldo: R$ ${database.sessions.currentUser.balance}</p>`;
-                } else {
-                    document.getElementById('transferResult').innerHTML = 
-                        '<p style="color: red;">❌ Saldo insuficiente</p>';
-                }
-            } else {
-                document.getElementById('transferResult').innerHTML = 
-                    '<p style="color: red;">❌ Faça login primeiro</p>';
+            // Simulação de banco vulnerável
+            let query = `SELECT * FROM users WHERE username = '${username}' AND password = '${password}'`;
+            document.getElementById('sqlResult').innerHTML = `Query executada: ${query}\n\n`;
+            
+            // Detecção de SQLi
+            if (username.includes("' --") || username.includes("' OR '1'='1")) {
+                document.getElementById('sqlResult').innerHTML += "✅ SQL Injection detectada!\n";
+                document.getElementById('sqlResult').innerHTML += "📊 Todos os usuários vazados:\n";
+                
+                labState.database.users.forEach(user => {
+                    document.getElementById('sqlResult').innerHTML += 
+                        `👤 ${user.username} | 💰 R$ ${user.balance} | 📧 ${user.email}\n`;
+                });
+                
+                updateProgress(20);
+                unlockAchievement('achievement1');
             }
         });
 
-        // 5. Upload de Arquivos Inseguro
-        document.getElementById('uploadForm').addEventListener('submit', function(e) {
+        // XSS DOM-Based
+        document.getElementById('xssForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const fileInput = document.getElementById('fileUpload');
-            const fileName = fileInput.files[0].name;
-            const fileExtension = fileName.split('.').pop().toLowerCase();
+            const xssPayload = document.getElementById('xssUrl').value;
             
-            // Vulnerabilidade: Validação insuficiente
-            if (['php', 'html', 'js', 'exe'].includes(fileExtension)) {
-                document.getElementById('uploadResult').innerHTML = 
-                    `<p style="color: red;">⚠️ Arquivo potencialmente perigoso upload: ${fileName}</p>
-                     <p>Conteúdo executável detectado!</p>`;
-            } else {
-                document.getElementById('uploadResult').innerHTML = 
-                    `<p style="color: green;">✅ Arquivo ${fileName} upload com sucesso</p>`;
+            // Vulnerabilidade DOM XSS
+            const urlParams = new URLSearchParams(window.location.search);
+            const vulnerableParam = urlParams.get('search') || xssPayload;
+            
+            document.getElementById('xssResult').innerHTML = 
+                `🔍 Resultado da busca: ${vulnerableParam}`;
+            
+            // Simulação de roubo de cookie
+            if (xssPayload.includes('<script>') || xssPayload.includes('onerror')) {
+                document.getElementById('currentCookie').textContent = 
+                    'session=stolen_cookie_here; admin=true; token=7h15-15-4-53cr37-70k3n';
+                updateProgress(15);
             }
         });
+
+        // SSRF
+        document.getElementById('ssrfForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const ssrfUrl = document.getElementById('ssrfUrl').value;
+            
+            document.getElementById('ssrfResult').innerHTML = 
+                `🌐 Fazendo requisição para: ${ssrfUrl}\n\n`;
+            
+            if (ssrfUrl.includes('file://')) {
+                document.getElementById('ssrfResult').innerHTML += 
+                    "📁 Conteúdo do arquivo local:\n" +
+                    "root:x:0:0:root:/root:/bin/bash\n" +
+                    "daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin\n" +
+                    "bin:x:2:2:bin:/bin:/usr/sbin/nologin";
+                updateProgress(25);
+            } else if (ssrfUrl.includes('localhost')) {
+                document.getElementById('ssrfResult').innerHTML += 
+                    "🔓 Acesso a serviços internos concedido!\n" +
+                    "📧 Internal API Key: " + labState.database.config.api_key;
+            }
+        });
+
+        // XXE
+        document.getElementById('xxeForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const xxePayload = document.getElementById('xxePayload').value;
+            
+            document.getElementById('xxeResult').innerHTML = 
+                "📄 Processando XML...\n\n";
+            
+            if (xxePayload.includes('<!ENTITY')) {
+                document.getElementById('xxeResult').innerHTML += 
+                    "✅ XXE Exploit bem-sucedido!\n" +
+                    "📁 Conteúdo de /etc/passwd:\n" +
+                    "root:x:0:0:root:/root:/bin/bash\n" +
+                    "mysql:x:106:113:MySQL Server:/var/lib/mysql:/bin/false\n" +
+                    "📧 Configurações do sistema vazadas!";
+                updateProgress(20);
+            }
+        });
+
+        // Deserialização
+        document.getElementById('deserializationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const serializedData = document.getElementById('serializedData').value;
+            
+            document.getElementById('deserializationResult').innerHTML = 
+                "⚡ Desserializando dados...\n\n";
+            
+            try {
+                // Simulação de desserialização vulnerável
+                if (serializedData.includes('phpinfo') || serializedData.includes('system')) {
+                    document.getElementById('deserializationResult').innerHTML += 
+                        "✅ RCE via Desserialização!\n" +
+                        "🚀 Comando executado no servidor\n" +
+                        "📁 Listando diretório:\n" +
+                        "drwxr-xr-x 12 root root   4096 Dec  1 10:30 .\n" +
+                        "-rw-r--r--  1 root root   1234 Dec  1 09:15 config.php\n" +
+                        "-rw-------  1 root root   5678 Dec  1 08:20 database.conf";
+                    updateProgress(20);
+                }
+            } catch (e) {
+                document.getElementById('deserializationResult').innerHTML += 
+                    "❌ Erro na desserialização: " + e.message;
+            }
+        });
+
+        // Sistema de progresso
+        function updateProgress(points) {
+            labState.progress += points;
+            if (labState.progress > 100) labState.progress = 100;
+            
+            document.getElementById('globalProgress').style.width = labState.progress + '%';
+            document.getElementById('progressText').textContent = labState.progress + '%';
+            
+            document.getElementById('userInfo').innerHTML = 
+                `Progresso: ${labState.progress}% | Conquistas: ${labState.achievements.length}`;
+        }
+
+        function unlockAchievement(achievementId) {
+            const achievement = document.getElementById(achievementId);
+            if (!achievement.classList.contains('unlocked')) {
+                achievement.classList.add('unlocked');
+                labState.achievements.push(achievementId);
+            }
+        }
+
+        // Exploração de nós
+        function exploitNode(node) {
+            if (!labState.compromisedNodes.includes(node)) {
+                labState.compromisedNodes.push(node);
+                updateProgress(5);
+                
+                if (labState.compromisedNodes.length >= 2) {
+                    document.getElementById('adminControls').style.display = 'block';
+                }
+            }
+        }
 
         // Funções administrativas
-        function showAdminFunctions() {
-            document.getElementById('adminFunctions').style.display = 'block';
+        function dumpDatabase() {
+            document.getElementById('adminResult').innerHTML = 
+                "🗃️ DUMP COMPLETO DO DATABASE:\n\n" +
+                "=== USUÁRIOS ===\n" +
+                JSON.stringify(labState.database.users, null, 2) + "\n\n" +
+                "=== CONFIGURAÇÕES ===\n" +
+                JSON.stringify(labState.database.config, null, 2) + "\n\n" +
+                "✅ Database comprometido completamente!";
+            updateProgress(30);
         }
 
-        function resetDatabase() {
-            database.users = [
-                { id: 1, username: 'admin', password: 'admin123', balance: 1000000, role: 'admin' },
-                { id: 2, username: 'joao', password: 'senha123', balance: 5000, role: 'user' },
-                { id: 3, username: 'maria', password: '123456', balance: 3000, role: 'user' }
-            ];
-            database.comments = [];
-            alert('✅ Banco de dados resetado!');
+        function executeServerCommand() {
+            document.getElementById('adminResult').innerHTML = 
+                "⚡ EXECUTANDO COMANDOS NO SERVIDOR:\n\n" +
+                "$ whoami\nroot\n\n" +
+                "$ ls -la /root\n" +
+                "-rw-------  1 root root 1234 Dec  1 config.php\n" +
+                "-rw-------  1 root root 5678 Dec  1 secrets.txt\n\n" +
+                "🚀 Servidor completamente comprometido!";
+            updateProgress(25);
         }
 
-        function viewAllUsers() {
-            const usersList = database.users.map(user => 
-                `${user.username} - R$ ${user.balance} - ${user.role}`
-            ).join('<br>');
-            
-            document.getElementById('adminFunctions').innerHTML += 
-                `<div style="background: #2c3e50; padding: 10px; margin-top: 10px;">
-                    <h3>Todos os Usuários:</h3>
-                    <p>${usersList}</p>
-                </div>`;
+        function bypassWAF() {
+            document.getElementById('adminResult').innerHTML = 
+                "🛡️ BYPASSING WAF...\n\n" +
+                "✅ WAF contornado com sucesso!\n" +
+                "📊 Técnicas utilizadas:\n" +
+                "• Unicode encoding\n" +
+                "• HTTP parameter pollution\n" +
+                "• Case variation\n" +
+                "• SQL comments injection";
+            updateProgress(15);
         }
 
-        // Inicializar comentários
-        displayComments();
+        // Inicialização
+        document.getElementById('userInfo').innerHTML = 
+            `Progresso: 0% | Conquistas: 0`;
     </script>
 </body>
 </html>
